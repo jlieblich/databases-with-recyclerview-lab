@@ -4,11 +4,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+
+import java.util.List;
 
 import ly.generalassemb.drewmahrt.shoppinglistver2.setup.DBAssetHelper;
 
@@ -22,5 +26,13 @@ public class MainActivity extends AppCompatActivity {
         DBAssetHelper dbSetup = new DBAssetHelper(MainActivity.this);
         dbSetup.getReadableDatabase();
 
+        RecyclerView groceries = (RecyclerView)findViewById(R.id.grocery_list);
+
+        List<GroceryItem> groceryList = GrocerListDatabaseHelper.getInstance(this).getItemNames();
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        groceries.setLayoutManager(layoutManager);
+
+        groceries.setAdapter(new GroceryListViewAdapter(groceryList));
     }
 }
